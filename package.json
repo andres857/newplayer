@@ -9,6 +9,7 @@
   "author": "Andres Gueerrero",
   "license": "MIT",
   "dependencies": {
+    "async-mqtt": "^2.6.1",
     "dotenv": "^8.2.0",
     "media-player-controller": "^1.5.3",
     "mqtt": "^4.2.6",

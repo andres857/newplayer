@@ -4,7 +4,8 @@ require('dotenv').config();
 
 async function testUrl(serverStreaming){
     try {
-        await exec(`ping -c 3 ${serverStreaming}` );
+        console.log(`[ testUrl - Verificando Conexion con el Servidor Multimedia ]`);
+        await exec(`ping -c 1 ${serverStreaming}` );
         return true
     } catch (error) {
         return false

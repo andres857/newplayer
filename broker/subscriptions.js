@@ -8,7 +8,7 @@ client.on('connect', function () {
             console.log(`subscription successfull to topic ${topics.suscriber.config}`);
             }
         })   
-    client.subscribe(topics.suscriber.broadcast, function (err) {
+    client.subscribe(topics.suscriber.urlStreaming, function (err) {
         if (!err) {
             console.log(`subscription successfull to topic ${topics.suscriber.urlStreaming}`);
         }

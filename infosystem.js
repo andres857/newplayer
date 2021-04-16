@@ -1,6 +1,6 @@
 const si = require('systeminformation');
 
-async function loadPlayer() {
+async function load() {
     let {currentLoad} = await si.currentLoad()
     currentLoad = currentLoad.toFixed(2)
     return currentLoad
@@ -20,13 +20,16 @@ async function getInterfaces(){
     let interfaces = await si.networkInterfaces()
     let ip4 = interfaces[1].ip4
     let MAC = interfaces[1].mac
+    return network = {
+        ip4,MAC
+    }
 }
 
 // statusPlayer()
 
 module.exports ={
-    loadPlayer,
-    Checksite,
+    load,
+    // Checksite,
     serialPlayer,
     getInterfaces
 }

@@ -1,4 +1,4 @@
-const testUrl = require('../testNetwork').testUrl
+const testUrl = require('../testUrl').testUrl
 const PlayerController = require('media-player-controller');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
@@ -19,12 +19,10 @@ var player = new PlayerController({
 
 
 
-async function launchPlayer(){
+async function launch(){
     let statusServerStreaming = await testUrl(server_Streaming)
         
         if (statusServerStreaming && !playerPlay){
-
-            console.log(`Conectado al servidor multimedia - ${statusServerStreaming}`);
     
             player.launch(err => {
                 if(err) return console.error(err.message);
@@ -40,8 +38,6 @@ async function launchPlayer(){
             player.on('playback', data => console.log(data));
         }
         else if(!statusServerStreaming && playerPlay){
-
-            console.log(`Sin conexion al servidor multimedia - ${statusServerStreaming}`);
             
             player.quit(e => {
                 if(e) return console.error(e.message);
@@ -54,14 +50,14 @@ async function launchPlayer(){
         }
 }
 
-async function launch(){
+async function launchPlayer(){
     return await new Promise (resolve => {
         setInterval(()=>{
-            launchPlayer()
+            launch()
         },5000)
     })
 }
-launch()
+
 module.exports={
-  launch
+    launchPlayer
 }
