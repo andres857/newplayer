@@ -1,26 +1,24 @@
 const MQTT = require("async-mqtt");
 const {serverBroker,options} = require('./index')
 const {buildTopics} = require('./topics');
-const {load,getInterfaces} = require('../infosystem')
+const {statusPlayer,getInterfaces} = require('../infosystem')
 
-const intervalPublish = 500;
+const intervalPublish = 5000;
 
 
 async function doPublish() {
     const topics = await buildTopics()
-    const loadPlayer = await load()
+    const status = await statusPlayer()
     const network = await getInterfaces()
     const client = await MQTT.connectAsync(`mqtt://${serverBroker}`,options)
-   
-    console.log("Starting");
-      try {
-          await client.publish(topics.publish.network, JSON.stringify(network));
-          await client.publish(topics.publish.load, JSON.stringify(loadPlayer));
 
+      try {
+          //await client.publish(topics.publish.network, JSON.stringify(network));
+          await client.publish(topics.publish.load, JSON.stringify(status));
           // This line doesn't run until the server responds to the publish
           await client.end();
           // This line doesn't run until the client has disconnected without error
-          console.log("Done");
+
       } catch (e){
           // Do something about it!
           console.log(e.stack);
@@ -45,4 +43,3 @@ try {
 }catch (error) {
     console.error(`Problema al publicar ${error}`);
 }
-

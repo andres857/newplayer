@@ -1,4 +1,4 @@
-const {launchPlayer} = require('./controllerPlayer/player')
+// const {launchPlayer} = require('./controllerPlayer/player')
 const {client} = require('./broker/index')
 
 async function main (){

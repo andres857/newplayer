@@ -8,8 +8,6 @@ const salaEspera = process.env.SALA_DE_ESPERA
 const tv = process.env.TV
 
 
-
-
 async function buildTopics(){
 
     let idPlayer = await serialPlayer()
@@ -24,11 +22,10 @@ async function buildTopics(){
         load: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/load`
         }
     }
-    console.log(topics);
+    // console.log(topics);
     return topics
 }
-
-
+// buildTopics()
 module.exports={
     buildTopics,
 }

@@ -1,4 +1,4 @@
-const testUrl = require('../testUrl').testUrl
+const {testUrl} = require('../testUrl')
 const PlayerController = require('media-player-controller');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
@@ -8,8 +8,7 @@ const server_Streaming = process.env.SERVER_STREAMING
 const url_Streaming = process.env.URL_STREAMING
 const url_StreamingOff = process.env.URL_STREAMINGOFF
 
-let playerPlay = false
-
+let playerPlayStreaming = false
 
 var player = new PlayerController({
     app: 'vlc',
@@ -17,16 +16,14 @@ var player = new PlayerController({
     media: url_Streaming
   });
 
-
-
 async function launch(){
     let statusServerStreaming = await testUrl(server_Streaming)
-        
-        if (statusServerStreaming && !playerPlay){
-    
+
+        if (statusServerStreaming && !playerPlayStreaming){
+
             player.launch(err => {
                 if(err) return console.error(err.message);
-                playerPlay = true
+                playerPlayStreaming = true
                 console.log('[ Player - Reproductor lanzado ]');
             });
 
@@ -37,11 +34,11 @@ async function launch(){
 
             player.on('playback', data => console.log(data));
         }
-        else if(!statusServerStreaming && playerPlay){
-            
+        else if(!statusServerStreaming && playerPlayStreaming){
+
             player.quit(e => {
                 if(e) return console.error(e.message);
-                playerPlay = false
+                playerPlayStreaming = false
                 console.log('[ Player - Cerrando reproductor ]');
               })
 
@@ -57,7 +54,7 @@ async function launchPlayer(){
         },5000)
     })
 }
-
+launchPlayer()
 module.exports={
     launchPlayer
 }
