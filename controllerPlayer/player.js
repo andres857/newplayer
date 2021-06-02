@@ -15,11 +15,12 @@ var player = new PlayerController({
     media: url_Streaming
   });
 
+// function to close player from web
 const closePlayer = function(){
     player.quit(e => {
         if(e) return console.error(e.message);
         playerPlayStreaming = false
-        console.log('[ Player - Closing Media Player Streaming [ Server Streaming Multimedia NOT Available ] ]');
+        console.log('[ Player - Closing Media Player Streaming from Web ]');
       })
   }
 
@@ -32,8 +33,8 @@ async function launch(){
                 playerPlayStreaming = true
                 console.log('[ Player - [ Server Streaming Multimedia Available ] ]');
                 player.setVolume(0.2)
-
             });
+
             player.on('playback', data => console.log(data));
             // player.on('playback', data => console.log(data));
 
@@ -55,7 +56,6 @@ async function launch(){
             console.log(`[ Player - Server Multimedia no Available ]`);
         }
 }
-
 
 
 module.exports={

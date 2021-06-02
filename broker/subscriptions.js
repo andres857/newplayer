@@ -13,7 +13,6 @@ async function doSubscription() {
           await client.subscribe(topics.suscriber.config);
           await client.subscribe(topics.suscriber.urlStreaming);
 
-
           console.log(`Client subscribe to topic ${topics.suscriber.config}`);
           console.log(`Client subscribe to topic ${topics.suscriber.urlStreaming}`);
 
@@ -23,12 +22,12 @@ async function doSubscription() {
               let message = JSON.parse(payload)
               if (topic == topics.suscriber.config){
                   if (message.restart=="device"){
-                    console.log('simulando reinicio del Device');
+                    // console.log('simulando reinicio del Device');
                       shutdown(function(output){
                       console.log(output);
                       });
                     }else if (message.restart=="player"){
-                      console.log('simulando reinicio del reproductor VLC');
+                      // console.log('simulando reinicio del reproductor VLC');
                       // return restartPlayer = true
                       closePlayer()
                       }
@@ -36,8 +35,9 @@ async function doSubscription() {
                             console.log('Peticiones no validas');
                         }
               }
+
               else if(topic == topics.suscriber.urlStreaming){
-                  console.log(`Url canal1`);
+                  console.log(`Url received: ${message.urlStreaming}`);
               }
           });
 
