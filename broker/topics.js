@@ -22,7 +22,7 @@ async function buildTopics(){
         load: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/load`
         }
     }
-    // console.log(topics);
+    console.log(topics);
     return topics
 }
 // buildTopics()

@@ -1,16 +1,13 @@
-const MQTT = require("async-mqtt");
-const {serverBroker,options} = require('./index')
+const {getClient} = require('./index')
 const {buildTopics} = require('./topics');
 const {statusPlayer,getInterfaces} = require('../infosystem')
-
-const intervalPublish = 5000;
 
 
 async function doPublish() {
     const topics = await buildTopics()
     const status = await statusPlayer()
     const network = await getInterfaces()
-    const client = await MQTT.connectAsync(`mqtt://${serverBroker}`,options)
+    const client = await getClient()
 
       try {
           //await client.publish(topics.publish.network, JSON.stringify(network));
@@ -26,20 +23,7 @@ async function doPublish() {
       }
   }
 
-
-async function delay(ms) {
-   return await new Promise(resolve => setTimeout(resolve, ms));
-}
-
-let run = async ()=>{
-    while (true){
-        doPublish();
-        await delay(intervalPublish);
-    }
-  }
-
-try {
-    run();
-}catch (error) {
-    console.error(`Problema al publicar ${error}`);
+// doPublish()
+module.exports ={
+    doPublish,
 }

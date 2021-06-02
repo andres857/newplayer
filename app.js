@@ -1,9 +1,20 @@
-// const {launchPlayer} = require('./controllerPlayer/player')
-const {client} = require('./broker/index')
+const {launch} = require('./controllerPlayer/player')
+const {doSubscription} = require('./broker/subscriptions')
+const {doPublish} = require('./broker/publications')
+
+require('dotenv').config()
 
 async function main (){
-    console.log('[ Verificando Conexiones ]');
-    await launchPlayer()
+
+    return await new Promise (resolve => {
+        doSubscription()
+        setInterval(()=>{
+          // lanza el player y se verifica si el servidor multimedia esta activo cada x tiempo
+          launch()
+          // publica la informacion al broker
+          doPublish()
+        },25000)
+    })
 }
 
 main()
