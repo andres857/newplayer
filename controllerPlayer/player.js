@@ -15,6 +15,13 @@ var player = new PlayerController({
     media: url_Streaming
   });
 
+const closePlayer = function(){
+    player.quit(e => {
+        if(e) return console.error(e.message);
+        playerPlayStreaming = false
+        console.log('[ Player - Closing Media Player Streaming [ Server Streaming Multimedia NOT Available ] ]');
+      })
+  }
 
 async function launch(){
     let statusServerStreaming = await testUrl(server_Streaming)
@@ -52,5 +59,6 @@ async function launch(){
 
 
 module.exports={
+    closePlayer,
     launch
 }

@@ -1,7 +1,8 @@
 
 const {getClient} = require('./index')
 const {buildTopics} = require('./topics');
-const {shutdown} = require('../controllerPlayer/device')
+const {shutdown} = require('../controllerPlayer/device');
+const {closePlayer} = require('../controllerPlayer/player')
 
 
 async function doSubscription() {
@@ -21,16 +22,19 @@ async function doSubscription() {
               console.log(`received from ${topic} : ${payload.toString()}`)
               let message = JSON.parse(payload)
               if (topic == topics.suscriber.config){
-
-                  if (message.restart=="true"){
-                    console.log('simulando reinicio del player');
+                  if (message.restart=="device"){
+                    console.log('simulando reinicio del Device');
                       shutdown(function(output){
                       console.log(output);
                       });
-
-                  }else{
-                      console.log('Peticiones no validas');
-                  }
+                    }else if (message.restart=="player"){
+                      console.log('simulando reinicio del reproductor VLC');
+                      // return restartPlayer = true
+                      closePlayer()
+                      }
+                        else{
+                            console.log('Peticiones no validas');
+                        }
               }
               else if(topic == topics.suscriber.urlStreaming){
                   console.log(`Url canal1`);
