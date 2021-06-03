@@ -16,16 +16,17 @@ async function buildTopics(){
         suscriber:{
         config:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/config`,
         urlStreaming:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/urlStreaming`,
+        getStatus:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/getstatus`
         },
         publish:{
         network: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/network`,
-        load: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/load`
+        status: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/status`
         }
     }
     console.log(topics);
     return topics
 }
-// buildTopics()
+buildTopics()
 module.exports={
     buildTopics,
 }
