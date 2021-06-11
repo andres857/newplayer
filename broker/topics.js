@@ -14,13 +14,15 @@ async function buildTopics(){
 
     const topics = {
         suscriber:{
-        config:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/config`,
-        urlStreaming:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/urlStreaming`,
-        getStatus:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/getstatus`
+          restart:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/restart`,
+          urlStreaming:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/urlStreaming`,
+          getStatus:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/getstatus`,
+          getCurrentStreaming:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/getCurrentStreaming`
+
         },
         publish:{
-        network: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/network`,
-        status: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/status`
+          currentStreaming: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/currentStreaming`,
+          status: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/status`,
         }
     }
     console.log(topics);

@@ -1,15 +1,20 @@
 const si = require('systeminformation');
 
 async function statusPlayer() {
-    let {currentLoad} = await si.currentLoad()
-    let {main}= await si.cpuTemperature()
-    let interfaces = await si.networkInterfaces()
-    let ip4 = interfaces[1].ip4
-    let MAC = interfaces[1].mac
-    currentLoad = currentLoad.toFixed(0)
-    // console.log(currentLoad,main);
-    return status = {
-      currentLoad,main,ip4,MAC
+    try {
+      let {currentLoad} = await si.currentLoad()
+      let {main}= await si.cpuTemperature()
+      let interfaces = await si.networkInterfaces()
+      let ip4 = interfaces[1].ip4
+      let MAC = interfaces[1].mac
+      currentLoad = currentLoad.toFixed(0)
+      let status = 'connected'
+      // console.log(currentLoad,main);
+      return status = {
+        status,currentLoad,main,ip4,MAC
+      }
+    } catch (e) {
+      console.log(`error obteniendo el status del player`);
     }
 }
 

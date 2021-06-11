@@ -1,9 +1,8 @@
-
 const {getClient} = require('./index')
 const {buildTopics} = require('./topics');
 const {doPublishStatusPlayer} = require('./publications')
-const {shutdown} = require('../controllerPlayer/device');
-const {closePlayer} = require('../controllerPlayer/player')
+const {shutdown} = require('../controllerPlayer/device')
+const {closePlayerGeneral} =require('../controllerPlayer/player')
 
 
 async function doSubscription() {
@@ -11,20 +10,21 @@ async function doSubscription() {
     const client = await getClient()
 
       try {
-          await client.subscribe(topics.suscriber.config);
+          await client.subscribe(topics.suscriber.restart);
           await client.subscribe(topics.suscriber.urlStreaming);
           await client.subscribe(topics.suscriber.getStatus);
+          await client.subscribe(topics.suscriber.getCurrentStreaming);
 
-          console.log(`Client subscribe to topic ${topics.suscriber.config}`);
+          console.log(`Client subscribe to topic ${topics.suscriber.restart}`);
           console.log(`Client subscribe to topic ${topics.suscriber.urlStreaming}`);
           console.log(`Client subscribe to topic ${topics.suscriber.getStatus}`);
-
+          console.log(`Client subscribe to topic ${topics.suscriber.getCurrentStreaming}`);
 
           // received messages from broker
           client.on('message',function(topic, payload){
               console.log(`received from ${topic} : ${payload.toString()}`)
               let message = JSON.parse(payload)
-              if (topic == topics.suscriber.config){
+              if (topic == topics.suscriber.restart){
                   if (message.restart=="device"){
                     // console.log('simulando reinicio del Device');
                       shutdown(function(output){
@@ -33,7 +33,7 @@ async function doSubscription() {
                     }else if (message.restart=="player"){
                       // console.log('simulando reinicio del reproductor VLC');
                       // return restartPlayer = true
-                      closePlayer()
+                      closePlayerGeneral()
                       }
                         else{
                             console.log('Peticiones no validas');
@@ -50,10 +50,10 @@ async function doSubscription() {
                     doPublishStatusPlayer(client,topics)
                     }catch(e){
                       console.log(`${e.stack} error Publicando`);
-
                     }
                 }
               }
+
           });
 
       } catch (e){
@@ -66,4 +66,5 @@ async function doSubscription() {
 // doSubscription()
 module.exports ={
     doSubscription,
+
 }
