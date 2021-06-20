@@ -11,7 +11,8 @@ const serverBroker = process.env.SERVERBROKER
 
 
 async function buildOptions(){
-    let idPlayer = await serialPlayer()
+    let idPlayerw = await serialPlayer()
+    let idPlayer = idPlayerw.slice(0,6)
     const options = {
         connectTimeout:4000,
         clientId: `${clientPlayer}/player/${idPlayer}`,
