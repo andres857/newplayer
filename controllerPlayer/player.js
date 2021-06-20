@@ -1,60 +1,91 @@
+require('dotenv').config()
+
 const PlayerController = require('media-player-controller');
 const {testUrl} = require('../testUrl')
 
-require('dotenv').config()
-// console.log('dotenv',process.env);
-
 const server_Streaming = process.env.SERVER_STREAMING
 const url_Streaming = process.env.URL_STREAMING
-// const url_StreamingOff = process.env.URL_STREAMINGOFF
+let currentStreaming = {
+  emision : "wchannel"
+}
 
-let playerPlayGlobal = false
-let currentStreaming = ""
+let playerPlay = false
 
-var playerGeneral = new PlayerController({
+var player = new PlayerController({
     app: 'vlc',
     args: ['--fullscreen','--video-on-top', '--no-video-title-show'],
     media: url_Streaming
   });
 
 // function to close player from web
-const closePlayerGeneral = function(){
-  playerGeneral.quit(e => {
-      if(e) return console.error(`hola ${e.message}`);
-      playerPlayGlobal = false
-      console.log('[ PlayerGeneral - Closing Media Player Streaming from Web ]');
+const restartPlayer = function(reason){
+  player.quit(e => {
+      if(e) return console.error(`[ Player - Error closing media player ${e.message} ] `);
+
+      playerPlay = false
+      console.log(`[ Player - Closing Media Player Streaming from ${reason} ]`);
     })
+
+  setTimeout(()=>{
+    player.launch(err => {
+        if(err) return console.error(`[ Player - Error starting media player ${err.message} ] `);
+
+        playerPlay = true
+        currentStreaming = {
+          emision : "wchannel"
+        }
+        console.log(`[ player - restart player]`);
+        console.log(`[ Player - CurrentStreaming ${currentStreaming.emision} ]`);
+          // doPublishcurrentStreaming(client,topics,currentStreaming)
+        player.setVolume(0.2)
+    });
+  },3000)
+}
+
+const closePlayer = function(reason){
+  if (playerPlay) {
+    player.quit(e => {
+        if(e) return console.error(`[ Player - Error closing media player ${e.message} ] `);
+
+        playerPlay = false
+        console.log(`[ Player - Closing Media Player Streaming from ${reason} ]`);
+      })
+  }else {
+    console.log(`[ Player - media player closed, nothing for do ]`);
+  }
+
 }
 
 async function launch(){
 
     let statusServerStreaming = await testUrl(server_Streaming)
-        console.log(`status server Streaming [ ${statusServerStreaming} ]`);
+        console.log(`[ Player - Status server Streaming ${statusServerStreaming} ] `);
 
         if (statusServerStreaming) {
 
-          console.log('[ Player - [ Server Streaming Multimedia Available ] ]');
-          if (!playerPlayGlobal) {
-            playerGeneral.launch(err => {
-                if(err) return console.error(`Error iniciando reproductor ${err.message}`);
-                playerPlayGlobal = true
+          console.log(`[ Player - Server Streaming Multimedia Available - Current Streaming ${currentStreaming.emision} ]`);
+          if (!playerPlay) {
+            player.launch(err => {
+                if(err) return console.error(`[ Player - Error starting media player ${err.message} ] `);
+
+                playerPlay = true
                 currentStreaming = {
-                  emision : "General"
+                  emision : "wchannel"
                 }
-                console.log(`currentStreaming - ${currentStreaming.emision}`);
+                console.log(`[ Player - CurrentStreaming ${currentStreaming.emision} ]`);
                   // doPublishcurrentStreaming(client,topics,currentStreaming)
-                playerGeneral.setVolume(0.2)
+                player.setVolume(0.2)
             });
-            playerGeneral.on('playback', data => console.log(data));
+            player.on('playback', data => console.log(data));
           }
-        }else if (!statusServerStreaming) {
-          closePlayerGeneral()
+        } else if (!statusServerStreaming) {
+          closePlayer('Media player not Available')
         }
 }
 
-launch()
 
 module.exports={
-    closePlayerGeneral,
+    closePlayer,
+    restartPlayer,
     launch,
 }

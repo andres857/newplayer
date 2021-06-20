@@ -10,25 +10,22 @@ const tv = process.env.TV
 
 async function buildTopics(){
 
-    let idPlayer = await serialPlayer()
-
+    let idPlayerw = await serialPlayer()
+    let idPlayer = idPlayerw.slice(0,6)
     const topics = {
         suscriber:{
-          restart:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/restart`,
-          urlStreaming:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/urlStreaming`,
-          getStatus:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/getstatus`,
-          getCurrentStreaming:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/getCurrentStreaming`
-
+          control:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/control`,
+          request:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/request`,
         },
         publish:{
-          currentStreaming: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/currentStreaming`,
           status: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/status`,
+          response: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/response`,
         }
     }
     console.log(topics);
     return topics
 }
-buildTopics()
+
 module.exports={
     buildTopics,
 }

@@ -14,7 +14,7 @@ async function buildOptions(){
     let idPlayer = await serialPlayer()
     const options = {
         connectTimeout:4000,
-        clientId: `${clientPlayer}/player/${salaEspera}/${tv}/${idPlayer}`,
+        clientId: `${clientPlayer}/player/${idPlayer}`,
         username:'emqx',
         password: 'public',
         keepalive:60,
@@ -27,12 +27,13 @@ async function buildOptions(){
 // console.log(options.clientId);
 
 async function getClient(){
+  try {
     let options = await buildOptions()
-    console.log(options);
     return await MQTT.connectAsync(`mqtt://${serverBroker}`,options)
+  } catch (e) {
+    console.log(`[ Broker - Error connceting to Broker ${e} ] `);
+  }
 }
-
-getClient()
 
 module.exports={
     getClient

@@ -2,7 +2,7 @@ const {getClient} = require('./index')
 const {buildTopics} = require('./topics');
 const {doPublishStatusPlayer} = require('./publications')
 const {shutdown} = require('../controllerPlayer/device')
-const {closePlayerGeneral} =require('../controllerPlayer/player')
+const {closePlayer,restartPlayer} =require('../controllerPlayer/player')
 
 
 async function doSubscription() {
@@ -10,60 +10,49 @@ async function doSubscription() {
     const client = await getClient()
 
       try {
-          await client.subscribe(topics.suscriber.restart);
-          await client.subscribe(topics.suscriber.urlStreaming);
-          await client.subscribe(topics.suscriber.getStatus);
-          await client.subscribe(topics.suscriber.getCurrentStreaming);
+        await client.subscribe(topics.suscriber.control);
+        await client.subscribe(topics.suscriber.request);
 
-          console.log(`Client subscribe to topic ${topics.suscriber.restart}`);
-          console.log(`Client subscribe to topic ${topics.suscriber.urlStreaming}`);
-          console.log(`Client subscribe to topic ${topics.suscriber.getStatus}`);
-          console.log(`Client subscribe to topic ${topics.suscriber.getCurrentStreaming}`);
+        console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.control} ]`);
+        console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.control} ]`);
 
-          // received messages from broker
-          client.on('message',function(topic, payload){
-              console.log(`received from ${topic} : ${payload.toString()}`)
-              let message = JSON.parse(payload)
-              if (topic == topics.suscriber.restart){
-                  if (message.restart=="device"){
-                    // console.log('simulando reinicio del Device');
-                      shutdown(function(output){
-                      console.log(output);
-                      });
-                    }else if (message.restart=="player"){
-                      // console.log('simulando reinicio del reproductor VLC');
-                      // return restartPlayer = true
-                      closePlayerGeneral()
-                      }
-                        else{
-                            console.log('Peticiones no validas');
-                        }
-              }
-
-              else if(topic == topics.suscriber.urlStreaming){
-                  console.log(`Url received: ${message.urlStreaming}`);
-              }
-              else if (topic == topics.suscriber.getStatus) {
-                if (message.getstatus == "true") {
-                  console.log('Publicando en el topic estatus');
-                  try{
-                    doPublishStatusPlayer(client,topics)
-                    }catch(e){
-                      console.log(`${e.stack} error Publicando`);
-                    }
-                }
-              }
-
-          });
-
-      } catch (e){
-          // Do something about it!
-          console.log(e.stack);
-          process.exit();
+      } catch (e) {
+        console.log(`[ Broker - Error subscriber to broker ${e} ]`);
       }
+
+      // received messages from broker
+      client.on('message',function(topic, payload){
+          console.log(`[ Broker - received from ${topic} : ${payload.toString()} ]`)
+          let message = JSON.parse(payload)
+
+          if (topic == topics.suscriber.control){
+              if (message.restart=="device"){
+                // console.log('simulando reinicio del Device');
+                  shutdown(function(output){
+                  console.log(output);
+                  });
+                }else if (message.restart=="player"){
+                  restartPlayer('request Web')
+                  }
+                  else{
+                      console.log(`[ Broker - Peticiones no validas ]`);
+                  }
+          }
+
+          else if (topic == topics.suscriber.request) {
+            if (message.status == "device") {
+              try{
+                console.log(`[ Broker - Publicando en el topic ${client,topics.publish.status} ]`);
+                doPublishStatusPlayer(client,topics.publish.status)
+                }catch(e){
+                  console.log(`[ Broker - ${e.stack} error Publicando]`);
+                }
+            }
+          }
+
+      });
   }
 
-// doSubscription()
 module.exports ={
     doSubscription,
 

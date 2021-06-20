@@ -4,11 +4,13 @@ require('dotenv').config()
 
 async function main (){
     return await new Promise (resolve => {
-        doSubscription()
+         doSubscription()
+         launch()
+
         setInterval(()=>{
           // lanza el player y se verifica si el servidor multimedia esta activo cada x tiempo
-          launch()
-        },120000)
+         launch()
+       },10000)
     })
 }
 
