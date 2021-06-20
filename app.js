@@ -10,7 +10,7 @@ async function main (){
         setInterval(()=>{
           // lanza el player y se verifica si el servidor multimedia esta activo cada x tiempo
          launch()
-       },10000)
+       },120000)
     })
 }
 
