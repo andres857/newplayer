@@ -1,13 +1,13 @@
-const {getClient} = require('./index')
+// const {getClient} = require('./index')
 const {buildTopics} = require('./topics');
 const {doPublishStatusPlayer} = require('./publications')
 const {shutdown} = require('../controllerPlayer/device')
 const {closePlayer,restartPlayer} =require('../controllerPlayer/player')
 
 
-async function doSubscription() {
-    const topics = await buildTopics()
-    const client = await getClient()
+async function doSubscription(topics,client) {
+    const topicspublish = await buildTopics()
+    // const client = await getClient()
 
       try {
         await client.subscribe(topics.suscriber.control);
@@ -43,7 +43,10 @@ async function doSubscription() {
             if (message.status == "device") {
               try{
                 console.log(`[ Broker - Publicando en el topic ${client,topics.publish.status} ]`);
-                doPublishStatusPlayer(client,topics.publish.status)
+                // doPublishStatusPlayer(client,topicspublish.publish.status)
+                (async function(){
+                  await client.publish(topicspublish.publish.status, 'JSON.stringify(status)');
+                })()
                 }catch(e){
                   console.log(`[ Broker - ${e.stack} error Publicando]`);
                 }
