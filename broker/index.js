@@ -4,8 +4,6 @@ const {serialPlayer} = require('../infosystem')
 
 
 const clientPlayer = process.env.CLIENT
-const salaEspera = process.env.SALA_DE_ESPERA
-const tv = process.env.TV
 const serverBroker = process.env.SERVERBROKER
 
 
@@ -13,12 +11,16 @@ const serverBroker = process.env.SERVERBROKER
 async function buildOptions(){
     let idPlayer = await serialPlayer()
     const options = {
-        connectTimeout:4000,
         clientId: `${clientPlayer}/player/${idPlayer}`,
         username:'emqx',
         password: 'public',
+        // protocolVersion: 5,
         keepalive:60,
-        clean:true
+        clean:true,
+        reconnectPeriod: 1000,
+        connectTimeout:4000,
+        resubscribeOnReconnect: true
+
     }
     return options
 }

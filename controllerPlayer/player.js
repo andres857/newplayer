@@ -1,6 +1,8 @@
 require('dotenv').config()
 
 const PlayerController = require('media-player-controller');
+const {doPublishStatusPlayer} = require('../broker/publications')
+
 const {testUrl} = require('../testUrl')
 
 const server_Streaming = process.env.SERVER_STREAMING
@@ -56,7 +58,7 @@ const closePlayer = function(reason){
 
 }
 
-async function launch(){
+async function launch(topics,client){
 
     let statusServerStreaming = await testUrl(server_Streaming)
         console.log(`[ Player - Status server Streaming ${statusServerStreaming} ] `);
@@ -64,6 +66,8 @@ async function launch(){
         if (statusServerStreaming) {
 
           console.log(`[ Player - Server Streaming Multimedia Available - Current Streaming ${currentStreaming.emision} ]`);
+          
+          doPublishStatusPlayer(client,topics.publish.status)
           if (!playerPlay) {
             player.launch(err => {
                 if(err) return console.error(`[ Player - Error starting media player ${err.message} ] `);
@@ -73,7 +77,7 @@ async function launch(){
                   emision : "wchannel"
                 }
                 console.log(`[ Player - CurrentStreaming ${currentStreaming.emision} ]`);
-                  // doPublishcurrentStreaming(client,topics,currentStreaming)
+                // doPublishcurrentStreaming(client,topics,currentStreaming)
                 player.setVolume(0.2)
             });
             player.on('playback', data => console.log(data));
@@ -89,3 +93,4 @@ module.exports={
     restartPlayer,
     launch,
 }
+
