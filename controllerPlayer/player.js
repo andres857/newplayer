@@ -1,12 +1,11 @@
 require('dotenv').config()
-
 const PlayerController = require('media-player-controller');
 const {doPublishStatusPlayer} = require('../broker/publications')
-
 const {testUrl} = require('../testUrl')
 
 const server_Streaming = process.env.SERVER_STREAMING
 const url_Streaming = process.env.URL_STREAMING
+
 let currentStreaming = {
   emision : "wchannel"
 }
@@ -19,7 +18,7 @@ var player = new PlayerController({
     media: url_Streaming
   });
 
-// function to close player from web
+// function to restart player from web
 const restartPlayer = function(reason){
   player.quit(e => {
       if(e) return console.error(`[ Player - Error closing media player ${e.message} ] `);
@@ -58,7 +57,7 @@ const closePlayer = function(reason){
 
 }
 
-async function launch(topics,client){
+async function launchPlayer(topics,client,streaming){
 
     let statusServerStreaming = await testUrl(server_Streaming)
         console.log(`[ Player - Status server Streaming ${statusServerStreaming} ] `);
@@ -73,17 +72,15 @@ async function launch(topics,client){
                 if(err) return console.error(`[ Player - Error starting media player ${err.message} ] `);
 
                 playerPlay = true
-                currentStreaming = {
-                  emision : "wchannel"
-                }
-                console.log(`[ Player - CurrentStreaming ${currentStreaming.emision} ]`);
+                streaming = 'wchannel'
+                console.log(`[ Player - CurrentStreaming ${streaming} ]`);
                 // doPublishcurrentStreaming(client,topics,currentStreaming)
                 player.setVolume(0.2)
             });
             player.on('playback', data => console.log(data));
           }
         } else if (!statusServerStreaming) {
-          closePlayer('Media player not Available')
+          closePlayer(`[ Player - Media player not Available ]`)
         }
 }
 
@@ -91,6 +88,6 @@ async function launch(topics,client){
 module.exports={
     closePlayer,
     restartPlayer,
-    launch,
+    launchPlayer,
 }
 

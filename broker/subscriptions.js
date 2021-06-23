@@ -3,11 +3,11 @@ const {buildTopics} = require('./topics');
 const {doPublishStatusPlayer} = require('./publications')
 const {shutdown} = require('../controllerPlayer/device')
 const {closePlayer,restartPlayer} =require('../controllerPlayer/player')
+let streaming = 'init'
 
 
 async function doSubscription(topics,client) {
     const topicspublish = await buildTopics()
-    // const client = await getClient()
 
       try {
         await client.subscribe(topics.suscriber.channel);
@@ -21,7 +21,7 @@ async function doSubscription(topics,client) {
       }
 
       // received messages from broker
-      client.on('message',function(topic, payload){
+      client.on('message', function(topic, payload){
           console.log(`[ Broker - received from ${topic} : ${payload.toString()} ]`)
           let message = JSON.parse(payload)
 
@@ -46,10 +46,23 @@ async function doSubscription(topics,client) {
                 }
           }
 
+          else if(topic == topics.suscriber.channel){
+            if (message.channel == "comercial"){
+              streaming = 'comercial'
+              console.log(`[ Broker - Simular cambiar a emision ${streaming} ]`);
+            }else if(message.channel == "wchannel"){
+              streaming = 'wchannel'
+              console.log(`[ Broker - Simular cambiar a emision ${streaming} ]`);
+            }
+          }
       });
   }
 
+function getStreaming(){
+  return streaming
+}
+
 module.exports ={
     doSubscription,
-
+    getStreaming
 }
