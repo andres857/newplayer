@@ -10,6 +10,16 @@ async function doPublishStatusPlayer(client,topics) {
       }
   }
 
+async function doPublishCurrentStreaming(client,topics,streaming) {
+    try {
+        await client.publish(topics, JSON.stringify(streaming));
+    } catch (e){
+        console.log(e.stack);
+        process.exit();
+    }
+}
+
 module.exports ={
     doPublishStatusPlayer,
+    doPublishCurrentStreaming
 }

@@ -20,6 +20,7 @@ async function buildTopics(){
         publish:{
           status: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/status`,
           response: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/response`,
+          currentStreaming: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/streaming`
         }
     }
     console.log(topics);

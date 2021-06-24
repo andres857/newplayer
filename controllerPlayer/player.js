@@ -1,9 +1,7 @@
 require('dotenv').config()
 const PlayerController = require('media-player-controller');
-const {doPublishStatusPlayer} = require('../broker/publications')
-const {testUrl} = require('../testUrl')
+const {doPublishCurrentStreaming} = require('../broker/publications')
 
-const server_Streaming = process.env.SERVER_STREAMING
 const url_Streaming = process.env.URL_STREAMING
 
 let currentStreaming = {
@@ -57,37 +55,26 @@ const closePlayer = function(reason){
 
 }
 
-async function launchPlayer(topics,client,streaming){
+function launchPlayer(topics,client,streaming){
 
-    let statusServerStreaming = await testUrl(server_Streaming)
-        console.log(`[ Player - Status server Streaming ${statusServerStreaming} ] `);
+    console.log(`[ Player -------------- emision actual ${streaming} ]`);
 
-        if (statusServerStreaming) {
+    player.launch( err => {
+      if(err) {
+        return console.error(`[ Player - Error starting media player ${err.message} ] `);
+      }else    
+        player.load(streaming)
+        player.setVolume(0.5)
+      });
 
-          console.log(`[ Player - Server Streaming Multimedia Available - Current Streaming ${currentStreaming.emision} ]`);
-          
-          doPublishStatusPlayer(client,topics.publish.status)
-          if (!playerPlay) {
-            player.launch(err => {
-                if(err) return console.error(`[ Player - Error starting media player ${err.message} ] `);
-
-                playerPlay = true
-                streaming = 'wchannel'
-                console.log(`[ Player - CurrentStreaming ${streaming} ]`);
-                // doPublishcurrentStreaming(client,topics,currentStreaming)
-                player.setVolume(0.2)
-            });
-            player.on('playback', data => console.log(data));
-          }
-        } else if (!statusServerStreaming) {
-          closePlayer(`[ Player - Media player not Available ]`)
-        }
+    player.on('playback', data => console.log(data));
 }
 
-
+  
 module.exports={
     closePlayer,
     restartPlayer,
     launchPlayer,
+    player
 }
 

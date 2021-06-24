@@ -1,9 +1,12 @@
-// const {getClient} = require('./index')
 const {buildTopics} = require('./topics');
 const {doPublishStatusPlayer} = require('./publications')
 const {shutdown} = require('../controllerPlayer/device')
-const {closePlayer,restartPlayer} =require('../controllerPlayer/player')
-let streaming = 'init'
+const {restartPlayer, player} =require('../controllerPlayer/player')
+
+let streaming = {
+  wchannel : "rtsp://192.168.5.223/InstitucionalTv",
+  comercial : "rtsp://192.168.5.100/Comercial"
+}
 
 
 async function doSubscription(topics,client) {
@@ -34,26 +37,23 @@ async function doSubscription(topics,client) {
                 console.log(`[ Broker - ${e.stack} error Publicando]`);
               }
             } else if (message.restart=="device"){
-              // console.log('simulando reinicio del Device');
               shutdown(function(output){
               console.log(output);
               });
             } else if (message.restart=="player"){
               restartPlayer('request Web')
-                }
+
+            } else if (message.channel == "comercial"){
+              console.log(`[ Broker - Simular cambiar a emision ${streaming.comercial} ]`);
+              player.load(streaming.comercial)
+
+            }else if(message.channel == "wchannel"){
+              console.log(`[ Broker - Simular cambiar a emision ${streaming.wchannel} ]`);
+              player.load(streaming.wchannel)
+            }
             else{
               console.log(`[ Broker - Peticiones no validas ]`);
                 }
-          }
-
-          else if(topic == topics.suscriber.channel){
-            if (message.channel == "comercial"){
-              streaming = 'comercial'
-              console.log(`[ Broker - Simular cambiar a emision ${streaming} ]`);
-            }else if(message.channel == "wchannel"){
-              streaming = 'wchannel'
-              console.log(`[ Broker - Simular cambiar a emision ${streaming} ]`);
-            }
           }
       });
   }
