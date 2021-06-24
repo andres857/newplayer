@@ -1,17 +1,21 @@
-const {launch} = require('./controllerPlayer/player')
+const {launchPlayer} = require('./controllerPlayer/player')
+const {buildTopics} = require('./broker/topics');
+const {getClient} = require('./broker/index')
 const {doSubscription} = require('./broker/subscriptions')
 require('dotenv').config()
 
-async function main (){
-    return await new Promise (resolve => {
-         doSubscription()
-         launch()
 
-        setInterval(()=>{
-          // lanza el player y se verifica si el servidor multimedia esta activo cada x tiempo
-         launch()
-       },120000)
-    })
+const url_Streaming = process.env.URL_STREAMING
+
+
+async function main (){
+
+  const topics = await buildTopics()
+  const client = await getClient()
+
+  await doSubscription(topics,client)
+  await launchPlayer(topics, client, url_Streaming)
+
 }
 
 main()
