@@ -43,7 +43,14 @@ async function doSubscription(topics,client) {
             } else if (message.restart=="player"){
               restartPlayer('request Web')
 
-            } else if (message.channel == "comercial"){
+            } 
+            else{
+              console.log(`[ Broker - Peticiones no validas ]`);
+                }
+                
+          } else if (topic == topics.suscriber.channel){
+
+            if (message.channel == "comercial"){
               console.log(`[ Broker - Simular cambiar a emision ${streaming.comercial} ]`);
               player.load(streaming.comercial)
 
@@ -51,9 +58,7 @@ async function doSubscription(topics,client) {
               console.log(`[ Broker - Simular cambiar a emision ${streaming.wchannel} ]`);
               player.load(streaming.wchannel)
             }
-            else{
-              console.log(`[ Broker - Peticiones no validas ]`);
-                }
+
           }
       });
   }

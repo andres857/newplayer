@@ -14,7 +14,7 @@ async function buildTopics(){
     let idPlayer = idPlayerw.slice(0,6)
     const topics = {
         suscriber:{
-          channel:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/channel`,
+          channel:`${clientPlayer}/${sede}/players/channel`,
           request:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/request`,
         },
         publish:{
