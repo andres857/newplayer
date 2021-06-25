@@ -4,8 +4,8 @@ const {shutdown} = require('../controllerPlayer/device')
 const {restartPlayer, player} =require('../controllerPlayer/player')
 
 let streaming = {
-  wchannel : "rtsp://192.168.5.223/InstitucionalTv",
-  comercial : "rtsp://192.168.5.100/Comercial"
+  wchannel : "rtsp://192.168.0.124/InstitucionalTV",
+  comercial : "rtsp://192.168.0.123/Comercial"
 }
 
 
