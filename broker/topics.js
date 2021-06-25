@@ -15,6 +15,7 @@ async function buildTopics(){
     const topics = {
         suscriber:{
           channel:`${clientPlayer}/${sede}/players/channel`,
+          restart:`${clientPlayer}/${sede}/players/restart`,
           request:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/request`,
         },
         publish:{

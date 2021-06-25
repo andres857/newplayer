@@ -15,9 +15,13 @@ async function doSubscription(topics,client) {
       try {
         await client.subscribe(topics.suscriber.channel);
         await client.subscribe(topics.suscriber.request);
+        await client.subscribe(topics.suscriber.restart);
+
 
         console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.channel} ]`);
         console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.request} ]`);
+        console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.restart} ]`);
+
 
       } catch (e) {
         console.log(`[ Broker - Error subscriber to broker ${e} ]`);
@@ -50,15 +54,24 @@ async function doSubscription(topics,client) {
                 
           } else if (topic == topics.suscriber.channel){
 
-            if (message.channel == "comercial"){
+            if (message.channel == "rcn"){
               console.log(`[ Broker - Simular cambiar a emision ${streaming.comercial} ]`);
               player.load(streaming.comercial)
 
-            }else if(message.channel == "wchannel"){
+            }else if(message.channel == "imbanacotv"){
               console.log(`[ Broker - Simular cambiar a emision ${streaming.wchannel} ]`);
               player.load(streaming.wchannel)
             }
 
+          } else if (topic == topics.suscriber.restart){
+            if (message.restart == "player"){
+              restartPlayer('request Web')
+
+            } else if(message.restart == "device"){
+              shutdown(function(output){
+                console.log(output);
+                });
+            }
           }
       });
   }
