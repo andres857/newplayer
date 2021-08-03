@@ -1,14 +1,10 @@
 require('dotenv').config()
+const moment = require('moment');
 const PlayerController = require('media-player-controller');
 const {doPublishCurrentStreaming} = require('../broker/publications')
 
 const url_Streaming = process.env.URL_STREAMING
 
-let currentStreaming = {
-  emision : "wchannel"
-}
-
-let playerPlay = false
 
 var player = new PlayerController({
     app: 'vlc',
@@ -17,62 +13,57 @@ var player = new PlayerController({
   });
 
 // function to restart player from web
-const restartPlayer = function(reason){
+const restartPlayer = function(topics, client,reason){
   player.quit(e => {
       if(e) return console.error(`[ Player - Error closing media player ${e.message} ] `);
-
-      playerPlay = false
       console.log(`[ Player - Closing Media Player Streaming from ${reason} ]`);
     })
 
   setTimeout(()=>{
     player.launch(err => {
         if(err) return console.error(`[ Player - Error starting media player ${err.message} ] `);
-
-        playerPlay = true
-        currentStreaming = {
-          emision : "wchannel"
-        }
-        console.log(`[ player - restart player]`);
-        console.log(`[ Player - CurrentStreaming ${currentStreaming.emision} ]`);
-          // doPublishcurrentStreaming(client,topics,currentStreaming)
-        player.setVolume(0.2)
+          console.log(`[ player - restarted player Success]`);
+          player.load(streaming.wchannel.url)
+          player.setVolume(0.5)
+          // let currentChannel = {
+          //   restartVlc = 'success',
+          //   emision:streaming,
+          //   lastseen: moment().format('MMMM Do YYYY, h:mm:ss a')
+          // }
+  
+          // doPublishCurrentStreaming(topics,client,currentChannel)
     });
   },3000)
 }
 
-const closePlayer = function(reason){
-  if (playerPlay) {
-    player.quit(e => {
-        if(e) return console.error(`[ Player - Error closing media player ${e.message} ] `);
 
-        playerPlay = false
-        console.log(`[ Player - Closing Media Player Streaming from ${reason} ]`);
-      })
-  }else {
-    console.log(`[ Player - media player closed, nothing for do ]`);
-  }
+function launchPlayer(topics, client , streaming){
 
-}
-
-function launchPlayer(topics,client,streaming){
-
-    console.log(`[ Player -------------- emision actual ${streaming} ]`);
-
+    console.log(`[ Player - emision actual ${streaming.wchannel.channel} ]`);
     player.launch( err => {
       if(err) {
         return console.error(`[ Player - Error starting media player ${err.message} ] `);
       }else    
-        player.load(streaming)
+        player.load(streaming.wchannel.url)
         player.setVolume(0.5)
+        console.log(`[ Player - Media player launched ]`);
+
+        let currentChannel = {
+          emision:streaming.wchannel.channel,
+          lastseen: moment().format('MMMM Do YYYY, h:mm:ss a')
+        }
+
+        doPublishCurrentStreaming(topics,client,currentChannel)
       });
 
     player.on('playback', data => console.log(data));
 }
 
+
+
   
 module.exports={
-    closePlayer,
+    // closePlayer,
     restartPlayer,
     launchPlayer,
     player

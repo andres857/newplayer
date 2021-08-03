@@ -1,4 +1,27 @@
+require('dotenv').config({ path: '/home/pi/newplayer/.env'})
+const moment = require('moment');
+
 const si = require('systeminformation');
+
+const sala = process.env.SALA_DE_ESPERA;
+const tv = process.env.TV
+const wchannelStreaming = process.env.URL_STREAMING
+const comercialStremaing = process.env.URL_STREAMING_COMERCIAL
+
+let streaming = {
+    wchannel : {
+      url: wchannelStreaming ,
+      channel: "Imbanaco TV"
+    },
+    comercial : {
+      url: comercialStremaing ,
+      channel: "caracol"
+    },
+    current: {
+      url:'',
+      channel:''
+    }
+  }
 
 async function statusPlayer() {
     try {
@@ -9,19 +32,15 @@ async function statusPlayer() {
       let MAC = interfaces[1].mac
       currentLoad = currentLoad.toFixed(0)
       let status = 'connected'
-      // console.log(currentLoad,main);
+      let lastseen = moment().format('MMMM Do YYYY, h:mm:ss a')
       return status = {
-        status,currentLoad,main,ip4,MAC
+        status,currentLoad,main,ip4,MAC,lastseen
       }
     } catch (e) {
       console.log(`error obteniendo el status del player`);
     }
 }
 
-// async function Checksite(){
-//     let Checksite = await si.inetChecksite('165.227.2.425')
-//     return Checksite.ok
-// }
 
 async function serialPlayer(){
     let {serial} = await si.osInfo()
@@ -37,12 +56,15 @@ async function getInterfaces(){
     }
 }
 
-// statusPlayer()
+
+
 
 
 module.exports ={
     statusPlayer,
-    // Checksite,
     serialPlayer,
-    getInterfaces
+    getInterfaces,
+    sala,
+    tv,
+    streaming
 }

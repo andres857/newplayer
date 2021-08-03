@@ -2,42 +2,37 @@ require('dotenv').config();
 const MQTT = require("async-mqtt");
 const {serialPlayer} = require('../infosystem')
 
-
 const clientPlayer = process.env.CLIENT
 const serverBroker = process.env.SERVERBROKER
-
-
 
 async function buildOptions(){
     let idPlayerw = await serialPlayer()
     let idPlayer = idPlayerw.slice(0,6)
+
     const options = {
         clientId: `${clientPlayer}/player/${idPlayer}`,
         username:'emqx',
         password: 'public',
-        // protocolVersion: 5,
         keepalive:60,
         clean:true,
-        reconnectPeriod: 1000,
+        reconnectPeriod: 10000,
         connectTimeout:4000,
         resubscribeOnReconnect: true
-
     }
     return options
 }
 
-
-// console.log(options.clientId);
-
-async function getClient(){
+async function connectBroker(){
   try {
     let options = await buildOptions()
-    return await MQTT.connectAsync(`mqtt://${serverBroker}`,options)
+    const client= await MQTT.connect(`mqtt://${serverBroker}`,options)
+    return client
   } catch (e) {
-    console.log(`[ Broker - Error connceting to Broker ${e} ] `);
+    console.log(`[ Broker - Error connecting to Broker ${e} ] `);
+    
   }
 }
 
 module.exports={
-    getClient
+  connectBroker
 }

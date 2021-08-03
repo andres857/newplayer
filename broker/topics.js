@@ -24,7 +24,7 @@ async function buildTopics(){
           currentStreaming: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/streaming`
         }
     }
-    console.log(topics);
+    console.log(topics)
     return topics
 }
 

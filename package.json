@@ -12,6 +12,8 @@
     "async-mqtt": "^2.6.1",
     "dotenv": "^8.6.0",
     "media-player-controller": "^1.5.3",
+    "moment": "^2.29.1",
+    "mongoose": "^5.13.3",
     "mqtt": "^4.2.6",
     "systeminformation": "^5.6.12"
   }

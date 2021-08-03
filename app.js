@@ -1,21 +1,28 @@
+require('dotenv').config()
 const {launchPlayer} = require('./controllerPlayer/player')
 const {buildTopics} = require('./broker/topics');
-const {getClient} = require('./broker/index')
+const {connectBroker} = require('./broker/index')
 const {doSubscription} = require('./broker/subscriptions')
-require('dotenv').config()
+const {streaming} = require ('./infosystem')
 
 
-const url_Streaming = process.env.URL_STREAMING
+console.log(streaming.wchannel)
+// const wchannelStreaming = process.env.URL_STREAMING
 
 
+
+// el streaming inicial es el canal institucional, imbanacoTV
 async function main (){
-
   const topics = await buildTopics()
-  const client = await getClient()
+  const client = await connectBroker()
 
-  await doSubscription(topics,client)
-  await launchPlayer(topics, client, url_Streaming)
+    try {
+      await doSubscription(topics,client)
+      await launchPlayer(topics.publish.currentStreaming, client, streaming)
 
+    } catch (error) {
+      console.log(`[ App - error connected to broker, ${error} ]`);
+    }
 }
 
 main()
