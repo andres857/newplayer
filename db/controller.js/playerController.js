@@ -27,19 +27,19 @@ addPlayer = async ()=>{
 
     const date = moment().format('MMMM Do YYYY, h:mm:ss a')
 
-    // console.log(idPlayer,sala,tv,network,topics,date);
+    console.log(idPlayer,sala,tv,network,topics,date);
 
     const newPlayer = new playerModel({
         idPlayer:idPlayer,
         location: sala,
         tv:tv,
         ip: network.ip4,
-        mac: network.mac,
+        mac: network.MAC,
         streaming: streaming,
         topics : topics,
         lastseen : date
     });
-    
+    console.log(newPlayer)
     const playerSaved = await newPlayer.save();
     console.log(playerSaved)
 }
@@ -93,7 +93,7 @@ deletePlayer = async () =>{
 
 (async ()=>{
     await connect(urldb)
-    
-    await updatePlayer()
+    await createPlayer()
+   
         
 })()
