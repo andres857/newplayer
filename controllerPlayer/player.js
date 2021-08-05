@@ -24,7 +24,7 @@ const restartPlayer = function(topics, client,reason){
         if(err) return console.error(`[ Player - Error starting media player ${err.message} ] `);
           console.log(`[ player - restarted player Success]`);
           player.load(streaming.wchannel.url)
-          player.setVolume(0.5)
+          player.setVolume(1)
           // let currentChannel = {
           //   restartVlc = 'success',
           //   emision:streaming,
@@ -45,7 +45,7 @@ function launchPlayer(topics, client , streaming){
         return console.error(`[ Player - Error starting media player ${err.message} ] `);
       }else    
         player.load(streaming.wchannel.url)
-        player.setVolume(0.5)
+        player.setVolume(1)
         console.log(`[ Player - Media player launched ]`);
 
         let currentChannel = {
