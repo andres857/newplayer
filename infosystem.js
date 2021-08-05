@@ -29,12 +29,12 @@ async function statusPlayer() {
       let {main}= await si.cpuTemperature()
       let interfaces = await si.networkInterfaces()
       let ip4 = interfaces[1].ip4
-      let mac = interfaces[1].mac
+      let MAC = interfaces[1].mac
       currentLoad = currentLoad.toFixed(0)
       let status = 'connected'
       let lastseen = moment().format('MMMM Do YYYY, h:mm:ss a')
       return status = {
-        status,currentLoad,main,ip4,mac,lastseen
+        status,currentLoad,main,ip4,MAC,lastseen
       }
     } catch (e) {
       console.log(`error obteniendo el status del player`);
