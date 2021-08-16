@@ -3,13 +3,7 @@ const {launchPlayer} = require('./controllerPlayer/player')
 const {buildTopics} = require('./broker/topics');
 const {connectBroker} = require('./broker/index')
 const {doSubscription} = require('./broker/subscriptions')
-const {streaming} = require ('./infosystem')
-
-
-console.log(streaming.wchannel)
-// const wchannelStreaming = process.env.URL_STREAMING
-
-
+const streaming = require ('./channel')
 
 // el streaming inicial es el canal institucional, imbanacoTV
 async function main (){

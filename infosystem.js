@@ -5,23 +5,6 @@ const si = require('systeminformation');
 
 const sala = process.env.SALA_DE_ESPERA;
 const tv = process.env.TV
-const wchannelStreaming = process.env.URL_STREAMING
-const comercialStremaing = process.env.URL_STREAMING_COMERCIAL
-
-let streaming = {
-    wchannel : {
-      url: wchannelStreaming ,
-      channel: "Imbanaco TV"
-    },
-    comercial : {
-      url: comercialStremaing ,
-      channel: "caracol"
-    },
-    current: {
-      url:'',
-      channel:''
-    }
-  }
 
 async function statusPlayer() {
     try {
@@ -56,15 +39,10 @@ async function getInterfaces(){
     }
 }
 
-
-
-
-
 module.exports ={
     statusPlayer,
     serialPlayer,
     getInterfaces,
     sala,
     tv,
-    streaming
 }

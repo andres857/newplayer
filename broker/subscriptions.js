@@ -2,7 +2,7 @@ const moment = require('moment');
 const {doPublishStatusPlayer,doPublishCurrentStreaming} = require('./publications')
 const {shutdown} = require('../controllerPlayer/device')
 const {restartPlayer, player} = require('../controllerPlayer/player')
-const {streaming} = require ('../infosystem')
+const streaming = require ('../channel')
 
 
 
@@ -39,9 +39,7 @@ async function doSubscription(topics,client) {
               console.log(output);
               });
             } else if (message.restart=="player"){
-
               restartPlayer('request Web')
-
             } 
             else{
               console.log(`[ Broker - Peticiones no validas ]`);
@@ -49,15 +47,15 @@ async function doSubscription(topics,client) {
                 
           } else if (topic == topics.suscriber.channel){
 
-            if(message.channel == "imbanacotv"){
-              console.log(`[ Broker - Simular cambiar a emision ${streaming.wchannel.url} ]`);
+            if(message.channel == "Imbanaco tv"){
+              console.log(`[ Broker - Cambiar a emision ${streaming.wchannel.url} ]`);
               player.load(streaming.wchannel.url)
+              player.setVolume(0.2)
 
               let currentChannel = {
                 emision:streaming.wchannel.channel,
                 lastseen: moment().format('MMMM Do YYYY, h:mm:ss a')
               }
-
               await doPublishCurrentStreaming(topics.publish.currentStreaming,client,currentChannel)
             }else{
               console.log(`[ Broker - message received ${message}]`,message);

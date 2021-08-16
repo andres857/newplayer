@@ -11,6 +11,7 @@ async function buildOptions(){
 
     const options = {
         clientId: `${clientPlayer}/player/${idPlayer}`,
+        port: 1884,
         username:'emqx',
         password: 'public',
         keepalive:60,

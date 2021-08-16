@@ -1,6 +1,21 @@
+require('dotenv').config()
+const wchannelStreaming = process.env.URL_STREAMING
+const comercialStremaing = process.env.URL_STREAMING_COMERCIAL
+
+let streaming = {
+    wchannel : {
+      url: wchannelStreaming ,
+      channel: "Imbanaco TV"
+    },
+    comercial : {
+      url: comercialStremaing ,
+      channel: "caracol"
+    },
+    current: {
+      url:'',
+      channel:''
+    }
+  }
 
 
-
-// module.exports = {
-//     streaming
-// }
+module.exports = streaming
