@@ -3,8 +3,8 @@ const playerModel = require ('../schema.js')
 const player = require ('../../infosystem')
 const {buildTopics} = require ('../../broker/topics')
 var moment = require('moment');
-const urldb = "mongodb+srv://desarrollo:8K9O1hMZiQOxbXTK@cluster0.qvhzi.mongodb.net/Imbanaco?retryWrites=true&w=majority"
-
+// const urldb = "mongodb+srv://desarrollo:8K9O1hMZiQOxbXTK@cluster0.qvhzi.mongodb.net/Imbanaco?retryWrites=true&w=majority"
+const urldb = "mongodb://desarrollo:8K9O1hMZiQOxbXTK@cluster0-shard-00-00.qvhzi.mongodb.net:27017,cluster0-shard-00-01.qvhzi.mongodb.net:27017,cluster0-shard-00-02.qvhzi.mongodb.net:27017/ValledeLiliSedeLimonar?ssl=true&replicaSet=atlas-gpeftf-shard-0&authSource=admin&retryWrites=true&w=majority"
 
 async function connect(url){
     await db.connect(url,{
@@ -91,9 +91,14 @@ deletePlayer = async () =>{
 }
 
 
-(async ()=>{
-    await connect(urldb)
-    await createPlayer()
+// (async ()=>{
+//     await connect(urldb)
+//     await createPlayer()
    
         
-})()
+// })()
+
+module.exports = {
+    connect,
+    createPlayer
+}

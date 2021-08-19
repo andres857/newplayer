@@ -1,8 +1,8 @@
 require('dotenv').config()
 const db = require('mongoose');
-const urldb = "mongodb+srv://desarrollo:8K9O1hMZiQOxbXTK@Cluster0.ywncf.mongodb.net/Imbanaco?retryWrites=true&w=majority"
-// const urldb = "mongodb+srv://desarrollo:xSaTdGjM2AIWvVDJ@iptv.ywncf.mongodb.net/ImbanacoTV?retryWrites=true&w=majority"
-console.log(urldb);
+const urldb = "mongodb+srv://desarrollo:8K9O1hMZiQOxbXTK@Cluster0.ywncf.mongodb.net/Valledelili?retryWrites=true&w=majority"
+// console.log(urldb);
+
 
 db.Promise = global.Promise;
 

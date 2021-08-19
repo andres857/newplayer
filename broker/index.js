@@ -4,6 +4,8 @@ const {serialPlayer} = require('../infosystem')
 
 const clientPlayer = process.env.CLIENT
 const serverBroker = process.env.SERVERBROKER
+const portBroker = process.env.PORT
+
 
 async function buildOptions(){
     let idPlayerw = await serialPlayer()
@@ -11,7 +13,7 @@ async function buildOptions(){
 
     const options = {
         clientId: `${clientPlayer}/player/${idPlayer}`,
-        port: 1884,
+        port: portBroker,
         username:'emqx',
         password: 'public',
         keepalive:60,
@@ -27,6 +29,7 @@ async function connectBroker(){
   try {
     let options = await buildOptions()
     const client= await MQTT.connect(`mqtt://${serverBroker}`,options)
+    console.log(`[ Broker - Connected success]`)
     return client
   } catch (e) {
     console.log(`[ Broker - Error connecting to Broker ${e} ] `);
