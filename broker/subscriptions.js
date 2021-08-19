@@ -9,9 +9,9 @@ const streaming = require ('../channel')
 async function doSubscription(topics,client) {
 
       try {
-        await client.subscribe(topics.suscriber.channel);
+        //await client.subscribe(topics.suscriber.channel);
         await client.subscribe(topics.suscriber.request);
-        await client.subscribe(topics.suscriber.restart);
+        //await client.subscribe(topics.suscriber.restart);
 
         console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.channel} ]`);
         console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.request} ]`);
