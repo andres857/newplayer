@@ -24,7 +24,8 @@ async function main (){
     }
 }
 
-setTimeout(()=>{
-  main()
-},180000)
+main()
+// setTimeout(()=>{
+//   main()
+// },180000)
 
