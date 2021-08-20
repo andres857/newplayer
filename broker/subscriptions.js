@@ -9,13 +9,20 @@ const streaming = require ('../channel')
 async function doSubscription(topics,client) {
 
       try {
-        //await client.subscribe(topics.suscriber.channel);
-        await client.subscribe(topics.suscriber.request);
-        //await client.subscribe(topics.suscriber.restart);
+        client.subscribe(topics.suscriber.channel)
+          .then(()=>{
+            console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.channel} ]`);
+          })
 
-        console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.channel} ]`);
-        console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.request} ]`);
-        console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.restart} ]`);
+        client.subscribe(topics.suscriber.request)
+          .then(()=>{
+            console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.request} ]`);
+          })
+        
+        client.subscribe(topics.suscriber.restart)
+          .then(()=>{
+            console.log(`[ Broker - Client subscribe to topic ${topics.suscriber.restart} ]`);
+          })
 
       } catch (e) {
         console.log(`[ Broker - Error subscriber to broker ${e} ]`);

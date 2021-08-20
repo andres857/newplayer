@@ -5,7 +5,7 @@ const comercialStremaing = process.env.URL_STREAMING_COMERCIAL
 let streaming = {
     wchannel : {
       url: wchannelStreaming ,
-      channel: "Imbanaco TV"
+      channel: "Lili tv"
     },
     comercial : {
       url: comercialStremaing ,
@@ -16,6 +16,5 @@ let streaming = {
       channel:''
     }
   }
-
 
 module.exports = streaming

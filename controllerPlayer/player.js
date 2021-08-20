@@ -30,7 +30,6 @@ const restartPlayer = function(reason){
   },3000)
 }
 
-
 function launchPlayer(topics, client , streaming){
 
     console.log(`[ Player - emision actual ${streaming.wchannel.channel} ]`);
@@ -44,23 +43,22 @@ function launchPlayer(topics, client , streaming){
 
     player.on('playback-started', () => {
       console.log('Playback started. Player can now be controlled');
-      player.setVolume(0.4)
+      player.setVolume(1)
 
       let currentChannel = {
         emision:streaming.wchannel.channel,
         lastseen: moment().format('MMMM Do YYYY, h:mm:ss a')
       }
-      doPublishCurrentStreaming(topics,client,currentChannel)
+      doPublishCurrentStreaming(topics,client,{
+        emision:streaming.wchannel.channel,
+        lastseen: moment().format('MMMM Do YYYY, h:mm:ss a')
+      })
     });
 
     player.on('playback', data => console.log(data));
 }
 
-
-
-  
 module.exports={
-    // closePlayer,
     restartPlayer,
     launchPlayer,
     player
