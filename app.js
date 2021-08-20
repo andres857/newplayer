@@ -26,5 +26,5 @@ async function main (){
 
 setTimeout(()=>{
   main()
-},20000)
+},180000)
 

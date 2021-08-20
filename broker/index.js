@@ -5,8 +5,6 @@ const {serialPlayer} = require('../infosystem')
 const clientPlayer = process.env.CLIENT
 const serverBroker = process.env.SERVERBROKER
 const portBroker = process.env.PORTBROKER
-console.log(portBroker);
-
 
 async function buildOptions(){
     let idPlayerw = await serialPlayer()

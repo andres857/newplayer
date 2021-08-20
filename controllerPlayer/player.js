@@ -38,7 +38,7 @@ function launchPlayer(topics, client , streaming){
         return console.error(`[ Player - Error starting media player ${err.message} ] `);
       }else  
         console.log(`[ Player - Media player launched ]`);
-        player.load(streaming.wchannel.url)
+        // player.load(streaming.wchannel.url)
       });
 
     player.on('playback-started', () => {
