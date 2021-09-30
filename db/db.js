@@ -1,13 +1,12 @@
 require('dotenv').config()
 const db = require('mongoose');
-const urldb = "mongodb+srv://desarrollo:8K9O1hMZiQOxbXTK@Cluster0.ywncf.mongodb.net/Valledelili?retryWrites=true&w=majority"
-// console.log(urldb);
-
+const urldb = 'mongodb://desarrollo:8K9O1hMZiQOxbXTK@cluster0-shard-00-00.qvhzi.mongodb.net:27017,cluster0-shard-00-01.qvhzi.mongodb.net:27017,cluster0-shard-00-02.qvhzi.mongodb.net:27017/WindowsChannel?ssl=true&replicaSet=atlas-gpeftf-shard-0&authSource=admin&retryWrites=true&w=majority'
+console.log(urldb);
 
 db.Promise = global.Promise;
 
-async function connect(url){
-    await db.connect(url,{
+async function connect(urldb){
+    await db.connect(urldb,{
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true

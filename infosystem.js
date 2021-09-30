@@ -8,6 +8,7 @@ const tv = process.env.TV
 
 async function statusPlayer() {
     try {
+
       let {currentLoad} = await si.currentLoad()
       let {main}= await si.cpuTemperature()
       let interfaces = await si.networkInterfaces()
@@ -24,10 +25,11 @@ async function statusPlayer() {
     }
 }
 
-
 async function serialPlayer(){
     let {serial} = await si.osInfo()
-    return serial
+    const serialplayer = serial.slice(0,6)
+    console.log(serialplayer);
+    return serialplayer
 }
 
 async function getInterfaces(){
@@ -38,6 +40,8 @@ async function getInterfaces(){
         ip4,MAC
     }
 }
+
+serialPlayer()
 
 module.exports ={
     statusPlayer,

@@ -3,6 +3,7 @@ const {Schema,model} = require ('mongoose');
 
 const playerSchema = new Schema({
   idPlayer: String,
+  currentChannel : Object,
   location: String,
   tv: String,
   ip: String,

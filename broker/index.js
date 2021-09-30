@@ -11,7 +11,7 @@ async function buildOptions(){
     let idPlayer = idPlayerw.slice(0,6)
 
     const options = {
-        clientId: `${clientPlayer}/player/${idPlayer}`,
+        clientId: idPlayer,
         port: portBroker,
         username:'emqx',
         password: 'public',
@@ -21,19 +21,17 @@ async function buildOptions(){
         connectTimeout:4000,
         resubscribeOnReconnect: true
     }
-    // console.log(options.port);
     return options
 }
 
 async function connectBroker(){
   try {
     let options = await buildOptions()
-    const client= await MQTT.connect(`mqtt://${serverBroker}`,options)
+    const client= await MQTT.connectAsync(`mqtt://${serverBroker}`,options)
     console.log(`[ Broker - Connected success to broker ]`)
     return client
   } catch (e) {
     console.log(`[ Broker - Error connecting to Broker ${e} ] `);
-    
   }
 }
 

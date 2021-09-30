@@ -14,14 +14,14 @@ async function buildTopics(){
     let idPlayer = idPlayerw.slice(0,6)
     const topics = {
         suscriber:{
-          channel:`${clientPlayer}/${sede}/players/channel`,
-          restart:`${clientPlayer}/${sede}/players/restart`,
-          request:`${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/request`,
+          channel:`players/channel`,
+          restart:`players/restart`,
+          request:`players/${idPlayer}/request`,
         },
         publish:{
-          status: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/status`,
-          response: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/response`,
-          currentStreaming: `${clientPlayer}/${sede}/players/${salaEspera}/${tv}/${idPlayer}/streaming`
+          status: `players/${idPlayer}/status`,
+          response: `players/${idPlayer}/response`,
+          currentStreaming: `players/${idPlayer}/streaming`
         }
     }
     console.log(topics)

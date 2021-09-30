@@ -5,7 +5,6 @@ const {restartPlayer, player} = require('../controllerPlayer/player')
 const streaming = require ('../channel')
 
 
-
 async function doSubscription(topics,client) {
 
       try {
@@ -25,7 +24,7 @@ async function doSubscription(topics,client) {
           })
 
       } catch (e) {
-        console.log(`[ Broker - Error subscriber to broker ${e} ]`);
+        console.log(`[ Broker - Error subscriber to topics ${e} ]`);
       }
 
       // received messages from broker
@@ -36,16 +35,16 @@ async function doSubscription(topics,client) {
           if (topic == topics.suscriber.request) {
             if (message.status == "device") {
               try{
-              console.log(`[ Broker - Publicando en el topic ${client,topics.publish.status} ]`);
-              await doPublishStatusPlayer(client,topics.publish.status)
+                console.log(`[ Broker - Publicando en el topic ${client,topics.publish.status} ]`);
+                await doPublishStatusPlayer(client,topics.publish.status)
               }catch(e){
                 console.log(`[ Broker - ${e.stack} error Publicando]`);
               }
-            } else if (message.restart=="device"){
+            } else if (message.restart == "device"){
               shutdown(function(output){
               console.log(output);
               });
-            } else if (message.restart=="player"){
+            } else if (message.restart == "player"){
               restartPlayer('request Web')
             } 
             else{

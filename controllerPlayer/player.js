@@ -5,7 +5,7 @@ const {doPublishCurrentStreaming} = require('../broker/publications')
 const streaming = require ('../channel')
 
 
-const url_Streaming = process.env.URL_STREAMING
+const url_Streaming = process.env.URL_STREAMING_INSTITUCIONAL
 
 
 var player = new PlayerController({
@@ -33,17 +33,17 @@ const restartPlayer = function(reason){
 function launchPlayer(topics, client , streaming){
 
     console.log(`[ Player - emision actual ${streaming.wchannel.channel} ]`);
+
     player.launch( err => {
       if(err) {
         return console.error(`[ Player - Error starting media player ${err.message} ] `);
       }else  
         console.log(`[ Player - Media player launched ]`);
-        // player.load(streaming.wchannel.url)
       });
 
     player.on('playback-started', () => {
       console.log('Playback started. Player can now be controlled');
-      player.setVolume(1)
+      player.setVolume(0.4)
 
       let currentChannel = {
         emision:streaming.wchannel.channel,
